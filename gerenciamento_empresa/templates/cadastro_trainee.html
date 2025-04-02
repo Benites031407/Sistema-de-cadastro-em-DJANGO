@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro de Trainee</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: rgb(151, 60, 60);
+            color: #333;
+        }
+
+        .container {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(26, 26, 145);
+        }
+
+        h1 {
+            text-align: center;
+            color: #000080; /* Azul marinho */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+
+        button[type="submit"] {
+            background-color: #800000; /* Vermelho */
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        a {
+            color: #000080; /* Azul marinho */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Trainee</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" required><br><br>
+
+            <label for="idade">Idade:</label>
+            <input type="number" name="idade" id="idade" required><br><br>
+
+            <label for="curso">Curso:</label>
+            <input type="text" name="curso" id="curso" required><br><br>
+
+            <label for="semestre">Semestre:</label>
+            <input type="number" name="semestre" id="semestre" required><br><br>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+        <br>
+        <a href="{% url 'dashboard' %}">Voltar para Dashboard</a>
+    </div>
+</body>
+</html>

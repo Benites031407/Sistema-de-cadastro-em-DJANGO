@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Setores</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            width: 300px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        nav h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav li {
+            margin-bottom: 10px;
+        }
+
+        nav a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        nav a.logout {
+            color: red;
+            text-align: center;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        div {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #000080;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <h2>Navegação</h2>
+        <ul>
+            <li><a href="{% url 'projetos' %}">Projetos</a></li>
+            <li><a href="{% url 'setores' %}">Setores</a></li>
+            <li><a href="{% url 'metas' %}">Metas</a></li>
+            <li><a href="{% url 'funcionarios' %}">Funcionários</a></li>
+            <li><a href="{% url 'logout' %}" class="logout">Log Out</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>Setores</h1>
+
+        <div>
+            <h2>TEC</h2>
+            <p>Faturamento: R$ 100.000,00</p>
+            <p>Membros: 10</p>
+            <p>Projetos: 5</p>
+        </div>
+
+        <div>
+            <h2>Eventos</h2>
+            <p>Faturamento: R$ 50.000,00</p>
+            <p>Membros: 5</p>
+            <p>Projetos: 2</p>
+        </div>
+
+        <div>
+            <h2>RH</h2>
+            <p>Faturamento: R$ 20.000,00</p>
+            <p>Membros: 3</p>
+            <p>Projetos: 1</p>
+        </div>
+
+        <div>
+            <h2>Comercial</h2>
+            <p>Faturamento: R$ 80.000,00</p>
+            <p>Membros: 8</p>
+            <p>Projetos: 4</p>
+        </div>
+
+        <div>
+            <h2>Vendas</h2>
+            <p>Faturamento: R$ 120.000,00</p>
+            <p>Membros: 12</p>
+            <p>Projetos: 6</p>
+        </div>
+
+        <div>
+            <h2>Civil</h2>
+            <p>Faturamento: R$ 90.000,00</p>
+            <p>Membros: 9</p>
+            <p>Projetos: 3</p>
+        </div>
+
+        <div>
+            <h2>OTM</h2>
+            <p>Faturamento: R$ 60.000,00</p>
+            <p>Membros: 6</p>
+            <p>Projetos: 2</p>
+        </div>
+    </div>
+
+</body>
+</html>

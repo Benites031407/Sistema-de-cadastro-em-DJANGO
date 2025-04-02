@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            display: flex;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(151, 60, 60);
+        }
+
+        nav {
+            width: 300px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        nav h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav li {
+            margin-bottom: 10px;
+        }
+
+        nav a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        nav a.logout {
+            color: red;
+            text-align: center;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .dashboard-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(26, 26, 145);
+            width: 300px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .dashboard-item h2 {
+            color: #000080;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-item p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .chart-container {
+            width: 500px;
+            height: 400px;
+            margin: 20px auto;
+        }
+
+        .chart-container canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            display: inline-block;
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <nav id="navbar">
+        <h2>Navegação</h2>
+        <ul>
+            <li><a href="{% url 'cadastro_projeto' %}">Cadastrar Projetos</a></li>
+            <li><a href="{% url 'cadastro_trainee' %}">Cadastrar Trainees</a></li>
+            <li><a href="{% url 'cadastro_membro' %}">Cadastrar Membros</a></li>
+            <li><a href="{% url 'cadastro_meta' %}">Cadastrar Meta</a></li>
+            <li><a href="{% url 'logout' %}" class="logout">Log Out</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        {% if projetos %}
+            <h1>Projetos em Andamento</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Data de Início</th>
+                        <th>Data de Fim</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for projeto in projetos %}
+                    <tr>
+                        <td>{{ projeto.nome }}</td>
+                        <td>{{ projeto.descricao }}</td>
+                        <td>{{ projeto.data_inicio }}</td>
+                        <td>{{ projeto.data_fim }}</td>
+                        <td>{{ projeto.status }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <a href="{% url 'cadastro_projeto' %}">Cadastrar Projeto</a>
+        {% elif setores %}
+            <h1>Setores</h1>
+            {% for setor in setores %}
+                <div>
+                    <h2>{{ setor.nome }}</h2>
+                    <p>Faturamento: {{ setor.faturamento }}</p>
+                    <p>Membros: {{ setor.membros }}</p>
+                    <p>Projetos: {{ setor.projetos }}</p>
+                </div>
+            {% endfor %}
+        {% elif metas %}
+            <h1>Metas</h1>
+            <canvas id="metaChart"></canvas>
+            <a href="{% url 'cadastro_meta' %}">Cadastrar Meta</a>
+            <script>
+                // Dados da meta (substitua pelos dados reais do Django)
+                var meta = {
+                    nome: 'Meta de Vendas',
+                    porcentagem_cumprida: 75
+                };
+
+                // Gráfico de Metas
+                var metaChartCtx = document.getElementById('metaChart').getContext('2d');
+                var metaChart = new Chart(metaChartCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Cumprido', 'Restante'],
+                        datasets: [{
+                            data: [meta.porcentagem_cumprida, 100 - meta.porcentagem_cumprida],
+                            backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            </script>
+        {% elif funcionarios %}
+            <h1>Funcionários</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Cargo</th>
+                        <th>Setor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for funcionario in funcionarios %}
+                    <tr>
+                        <td>{{ funcionario.nome }}</td>
+                        <td>{{ funcionario.cargo }}</td>
+                        <td>{{ funcionario.setor }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <a href="{% url 'cadastro_membro' %}">Cadastrar Membro</a>
+            <a href="{% url 'cadastro_trainee' %}">Cadastrar Trainee</a>
+        {% else %}
+            <h1>Dashboard Empresarial</h1>
+            <div class="dashboard-grid">
+                <div class="dashboard-item">
+                    <h2>Faturamento do Setor</h2>
+                    <p>R$ 150.000,00</p>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Projetos do Setor</h2>
+                    <p>12</p>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Membros do Setor</h2>
+                    <p>8</p>
+                </div>
+                <div class="dashboard-item">
+                    <h2>Trainees do Setor</h2>
+                    <p>3</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="metasPorValor"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="metasPorData"></canvas>
+            </div>
+            <script>
+                // Dados das metas (substitua pelos dados reais do Django)
+                var metas = {{ metas_json|safe }};
+
+                // Gráfico de Metas por Valor
+                var metasPorValorCtx = document.getElementById('metasPorValor').getContext('2d');
+                var metasPorValorChart = new Chart(metasPorValorCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: metas.map(meta => meta.nome),
+                        datasets: [{
+                            label: 'Valor das Metas',
+                            data: metas.map(meta => meta.valor),
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                // Gráfico de Metas por Data
+                var metasPorDataCtx = document.getElementById('metasPorData').getContext('2d');
+                var metasPorDataChart = new Chart(metasPorDataCtx, {
+                    type: 'line',
+                    data: {
+                        labels: metas.map(meta => meta.data_inicio),
+                        datasets: [{
+                            label: 'Valor das Metas por Data',
+                            data: metas.map(meta => meta.valor),
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        {% endif %}
+    </div>
+
+</body>
+</html>
